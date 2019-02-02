@@ -1,0 +1,30 @@
+TITLE:: Psine
+summary:: A sine wave pattern
+categories:: Pattern
+related:: Classes/Pexpodec, Classes/Ptime
+
+DESCRIPTION::
+A simple implementation of a sine wave pattern
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: freq
+The frequency of the sine wave
+
+returns:: Absolute values (from 0.0 to 1.0)
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+Pbind(
+    \dur, Psine(0.01) + 0.1,
+    \amp, Psine(1)
+).trace.play
+::
+
