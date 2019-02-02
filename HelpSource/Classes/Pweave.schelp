@@ -1,0 +1,41 @@
+TITLE:: Pweave
+summary:: Abstract class to create weave like parallel event patterns
+categories:: Patterns
+related:: Classes/Ptops, Classes/Pwaves, Classes/Psine
+
+DESCRIPTION::
+Abstract class to create weave like parallel event patterns.
+
+Inspired by Tidal's weave function.
+
+This class takes a list of event patterns as an input and changes one or more parameters at the same time according to a specific function.
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: eventPatterns
+List of event patterns that are to be played in parallel
+
+ARGUMENT:: weaveFunc
+A function used to change the specified parameters in parallel in all event patterns.
+
+The function is passed three arguments: eventIndex, paramIndex, weaveSpeed
+
+ARGUMENT:: weaveSpeed
+This is a general argument that is passed to the weaveFunc as an argument
+
+ARGUMENT:: overWrite
+Boolean: if true the function in the weaveFunc will completely overwrite the original values for the parameters specified, if false it will modulate the original values in stead
+
+ARGUMENT::  ... params
+Symbols specifying the arguments of the original patterns that are to be changed by this operation
+
+returns:: Ppar
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
