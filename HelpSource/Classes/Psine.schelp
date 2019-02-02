@@ -23,8 +23,9 @@ EXAMPLES::
 
 code::
 Pbind(
-    \dur, Psine(0.01) + 0.1,
+    \dur, Psine(0.01) + 0.01,
+    \degree, Psine(0.1).linlin(0.0,1.0,0,16),
     \amp, Psine(1)
-).trace.play
+).play
 ::
 
