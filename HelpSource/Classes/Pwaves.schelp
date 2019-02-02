@@ -1,0 +1,62 @@
+TITLE:: Pwaves
+summary:: Event pattern manipulation via quadrature (?) sine waves
+categories:: Patterns
+related:: Classes/Psine, Classes/Pbindf
+
+DESCRIPTION::
+Event pattern manipulation via quadrature (?) sine waves.
+
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: eventPatterns
+A list of event patterns (Pbinds)
+
+ARGUMENT:: waveLength
+The frequency of the modulating sine wave patterns
+
+ARGUMENT:: overWrite
+overwrite the specified parameters' values or modify them?
+
+ARGUMENT::  ... params
+a bunch of parameters to manipulate
+
+returns:: Ppar
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+
+// A horrible clown music-example
+(
+var p1, p2, p3;
+
+// Make three different melodic patterns
+p1 = Pbind(\dur, 0.25, \octave, 4, \degree, Pseq([1,5,2],inf));
+p2 = Pbind(\dur, 0.125, \octave, 6, \degree, Pseq([1,5,2],inf));
+p3 = Pbind(\dur, 1.25, \octave, 5, \degree, Pwhite(0,10));
+
+// Now, some horrible clown music
+Pwaves([p1,p2,p3], 0.1, false, \amp, \degree, \sustain).trace.play;
+)
+
+// A more pleasent example
+(
+var p1, p2, p3;
+
+// Make three different melodic patterns
+p1 = Pbind(\dur, 0.25, \octave, 4, \degree, Pseq([1,5,2],inf));
+p2 = Pbind(\dur, 0.125, \octave, 6, \degree, Pseq([1,5,2],inf));
+p3 = Pbind(\dur, 1.25, \octave, 5, \degree, Pwhite(0,10));
+
+// Now, that's better
+Pwaves([p1,p2,p3], 0.1, false, \amp, \sustain).trace.play;
+)
+
+::
