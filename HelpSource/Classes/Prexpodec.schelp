@@ -1,0 +1,35 @@
+TITLE:: Prexpodec
+summary:: Reverse (rising) exponential decay list pattern
+categories:: Exponential, list, pattern
+related:: Classes/Pexprand, Classes/Prexpodec
+
+DESCRIPTION::
+A very simple implementation of a reverse exponentially decaying line going from
+almost zero to 1.0.
+
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: steps
+Number of steps in line
+
+ARGUMENT:: repeats
+Number of repetitions
+
+returns:: Pseq
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+// Exponentially decaying note duration
+Pbind(\dur, Pexpodec(100) + 0.1).play;
+
+// Exponentially rising note duration
+Pbind(\dur, Prexpodec(100) + 0.1).play;
+::

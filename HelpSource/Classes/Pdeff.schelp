@@ -1,0 +1,67 @@
+TITLE:: Pdeff
+summary:: Pattern mutations: A combo of Pdef and Pbindf
+categories:: Event Pattern
+related:: Classes/Pdef, Classes/Pbindf
+
+DESCRIPTION::
+This class is a simple wrapper around the combination of Pdef and Pbindf. See
+the examples. 
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: pdefname
+Name of this Pdef (the new one), a symbol
+
+ARGUMENT:: copyfrom
+The name of the Pdef you want to copy from / modify, a symbol
+
+ARGUMENT::  ... args
+Argument pairs
+
+returns:: Pdef
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+(
+ // Define a Pdef containing an event pattern
+Pdef(\hej, 
+    Pbind(
+        \freq, Pwhite(100, 10000), 
+        \dur, Pseq([1,5,2,1],inf)
+        )
+);
+
+// Make a new Pdef based on the above but with a change in the duration
+// arguments
+Pdeff(\hej2, \hej, 
+    \dur, Pseq([0.01, 0.25, 10], inf)
+);
+
+// This is equivalent of writing this:
+Pdef(\hej2, 
+    Pbindf(
+        Pdef(\hej),
+        \dur, Pseq([0.01, 0.25, 10], inf)
+        ) 
+);
+
+// Now both the original Pdef \hej and the new, mutated Pdef \hej2 are available
+// globally
+Pdef.all.postln
+)
+
+// The original pattern
+Pdef(\hej).play;
+
+// The mutated pattern
+Pdef(\hej2).play;
+::
+
+
