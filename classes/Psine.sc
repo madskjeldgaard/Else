@@ -11,3 +11,9 @@ Psine : Pattern{
     }
 }
 
+Pcosine : Pattern{
+    *new{|freq=1, phase=0|
+		^Pn(cos(2pi * freq * Ptime() + phase));
+    }
+}
+
