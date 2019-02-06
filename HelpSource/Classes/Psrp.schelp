@@ -1,11 +1,12 @@
 TITLE:: Psrp
 summary:: a type of SRP - Shifting Repetitive Patterns
 categories:: Patterns
-related:: Classes/Psine, Classes/Pwaves
+related:: Classes/Psrpmod, Classes/Psine, Classes/Pwaves
 
 DESCRIPTION::
-a type of SRP - Shifting Repetitive Patterns
-Psrp likes activity on the right-hand side of the decimal point
+a type of SRP - Shifting Repetitive Patterns if you like.
+Psrp.sc and Psrpmod.sc - likes activity on the right-hand side of the decimal point
+aka fraction action baby i.e. whole numbers makes the undulation stagnate.
 
 
 CLASSMETHODS::
@@ -16,7 +17,7 @@ ARGUMENT:: freq
 
 ARGUMENT:: phase
 
-returns:: (describe returnvalue here)
+returns:: (undulations)
 
 
 INSTANCEMETHODS::
@@ -26,25 +27,22 @@ EXAMPLES::
 
 code::
 (
-Pbind(
-    \instrument, \help_sinegrain,
-    \dur, 0.2,
-    \sustain, Psrp(1.2, 0.5).linlin(-1.0,1.0,0.03,0.8),
-    \freq, Psrp(Pstep([1,4,9.4,8.3], 2, inf)).linlin(-1.0,1.0,200.0,2000.0)
-).play;
-
+SynthDef(\simple_sine, {arg out = 0, pos = 0.0, freq = 440, sustain = 0.05;
+	var sig, env;
+	env = EnvGen.kr(Env.perc(0.01, sustain, 0.5), doneAction: Done.freeSelf);
+	sig = SinOsc.ar(freq, 0, env);
+	Out.ar(out, Pan2.ar(sig, pos))
+}).add;
 )
 
 (
-SynthDef(\help_sinegrain,
-    { arg out = 0, freq = 440, sustain = 0.05;
-    var env;
-    env = EnvGen.kr(Env.perc(0.01, sustain, 0.2), doneAction: Done.freeSelf);
-    Out.ar(out, SinOsc.ar(freq, 0, env))
-    }
-).add;
-
+Pbind(
+	\instrument, \simple_sine,
+    \dur, 0.2,
+    \sustain, Psrp(1.2, 0.5).linlin(-1.0,1.0,0.03,0.8),
+    \freq, Psrp(Pstep([1,4,9.4,8.3], 2, inf)).linlin(-1.0,1.0,200.0,2000.0)/2,
+	\pos, Psrp(0.03, 0.2)
+).play;
 )
-
 ::
 
