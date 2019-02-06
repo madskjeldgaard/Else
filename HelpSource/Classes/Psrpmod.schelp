@@ -1,0 +1,40 @@
+TITLE:: Psrpmod
+summary:: a type of SRP - Shifting Repetitive Patterns with modulation
+categories:: Patterns
+related:: Classes/Psrp, Classes/Psine, Classes/Pwaves
+
+DESCRIPTION::
+a type of SRP - Shifting Repetitive Patterns if you like.
+Psrp.sc and Psrpmod.sc - likes activity on the right-hand side of the decimal point
+aka fraction action baby i.e. whole numbers makes the undulation stagnate.
+
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: freq
+
+ARGUMENT:: mod
+
+ARGUMENT:: phase
+
+returns:: (modulated undulations)
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+(
+Pdef(\, {
+	Pbind(
+		\dur, 3,
+		\unda, Psrpmod(1.01,0.3,0);
+	).trace([\unda], prefix: "\n\t");
+}).play(TempoClock(139/40*4))
+)
+::
+
