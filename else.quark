@@ -1,8 +1,8 @@
 (
   name: "Else",
   summary: "A collection of useful and/or strange pattern classes for SuperCollider",
-  version: "0.0.1",
-  schelp: "Pdeff",
+  version: "0.0.2",
+  schelp: "Else",
   url: "https://github.com/madskjeldgaard/Else",
   dependencies: [],
   license: "GPL",
