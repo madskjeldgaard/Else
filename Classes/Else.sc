@@ -76,7 +76,7 @@ Psine : Pattern {
 // Normalized
 Psinen : Pattern {
     *new { |freq=1, phase=0|
-		^Pn(sin(2pi * freq * Ptime() + phase)).linlin(-2pi,2pi,0.0,1.0)
+		^Pn(sin(2pi * freq * Ptime() + phase)).linlin(-1,1,0.0,1.0)
     }
 }
 
@@ -89,7 +89,7 @@ Pcosine : Pattern {
 // Normalized
 Pcosinen : Pattern {
     *new { |freq=1, phase=0|
-		^Pn(cos(2pi * freq * Ptime() + phase)).linlin(-2pi,2pi,0.0,1.0)
+		^Pn(cos(2pi * freq * Ptime() + phase)).linlin(-1,1,0.0,1.0)
     }
 }
 
@@ -132,47 +132,63 @@ Pspeed : Pattern {
     }
 }
 
-Ptops : Pattern {
-	*new { |eventPatterns, waveLength=1, overWrite=true ... params|
-		var sineFunc = { |eventIndex, paramIndex, waveLength|
-			Psine(( 1+paramIndex )*( 1+eventIndex )*waveLength)
-		};
-
-		^Pweave(eventPatterns, sineFunc, waveLength, overWrite, *params)
-	}
-
-}
-
-Pwaves : Pattern {
-	*new { |eventPatterns, waveLength=1, overWrite=true ... params|
-		var sineFunc = { |eventIndex, paramIndex, waveLength|
-			var phase = eventIndex.linlin(0,eventPatterns.size, 0.0, 2pi);
-			var sine = Psine(( 1+paramIndex )*( 1+eventIndex )*waveLength, phase);
-
-			sine.linlin(-1.0,1.0,0.0,1.0)
-		};
-
-		^Pweave(eventPatterns, sineFunc, waveLength, overWrite, *params)
-	}
-
-}
-
+// Basic weave function. Can be used directly but probably shouldn't
 Pweave : Pattern {
-	*new { |eventPatterns, weaveFunc, weaveSpeed=1, overWrite=true ... params|
+	*new { |eventPatterns, weaveSpeed=1, overWrite=true ... params|
+
+		// For every event pattern in the list...
 		var weavePats = eventPatterns.collect { |eventPat, eventIndex|
+
+			// ... and every parameter chosen
 			var newParams = params.collect { |param, paramIndex|
-				var paramFunc = weaveFunc.value(eventIndex, paramIndex, weaveSpeed);
 
-				var paramValue = Pkey(param.asSymbol) * paramFunc;
+				// ... Use this function to create a new version of the pattern(s)
+				var paramFunc = this.weaveFunc(
+					eventIndex, 
+					paramIndex, 
+					weaveSpeed, 
+					eventPatterns.size
+				);
 
-				overWrite.if {paramValue = paramFunc};
+				// Possibly overwriting original parameter values, or scaling them against the function
+				var paramValue = overWrite.if(
+					{ paramFunc },
+					{ Pkey(param.asSymbol) * paramFunc} // Scale original value using func
+				);
 
 				[param.asSymbol, paramValue] 
 			}.flatten;
 
+			// Modified version of event pattern collected
 			Pbindf(eventPat, *newParams)
 		};
 
+		// All modified versions of the event patterns stacked on top of eachother again
 		^Ppar(weavePats)
 	}
+
+	*weaveFunc{ |eventIndex, paramIndex, weaveSpeed, numEventPatterns|
+		"Do not use the Pweave function directly".error;
+		^nil
+	}
 }
+
+// Weave patterns using sine, fixed phase
+Ptops : Pweave {
+	*weaveFunc{ |eventIndex, paramIndex, weaveSpeed, numEventPatterns|
+		eventIndex.odd.if({
+			^Psinen(( 1+paramIndex )*( 1+eventIndex )*weaveSpeed)
+		}, {
+			^Pcosinen(( 1+paramIndex )*( 1+eventIndex )*weaveSpeed)
+		})
+	}
+}
+
+// Weave patterns using sine, distributed phase
+Pwaves : Pweave {
+	*weaveFunc{ |eventIndex, paramIndex, weaveSpeed, numEventPatterns|
+			var phase = eventIndex.linlin(0, numEventPatterns, 0.0, 2pi);
+			^Psinen(( 1+paramIndex )*( 1+eventIndex )*weaveSpeed, phase);
+	}
+}
+
