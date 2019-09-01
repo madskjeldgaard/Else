@@ -13,7 +13,11 @@ METHOD:: new
 ARGUMENT:: freq
 The frequency of the sine wave
 
-returns:: Absolute values (from 0.0 to 1.0)
+ARGUMENT:: phase
+The init phase of the sine wave
+
+returns:: Bipolar values (from -1.0 to 1.0)
+for absolute/normalized version see link::Classes/Psinen::
 
 
 INSTANCEMETHODS::
@@ -28,4 +32,3 @@ Pbind(
     \amp, Psine(1)
 ).play
 ::
-
