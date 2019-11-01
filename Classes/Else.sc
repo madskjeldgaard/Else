@@ -160,7 +160,7 @@ Pweave : Pattern {
 			}.flatten;
 
 			// Modified version of event pattern collected
-			Pbindf(eventPat, *newParams)
+			^Pbindf(eventPat, *newParams)
 		};
 
 		// All modified versions of the event patterns stacked on top of eachother again
@@ -187,8 +187,14 @@ Ptops : Pweave {
 // Weave patterns using sine, distributed phase
 Pwaves : Pweave {
 	*weaveFunc{ |eventIndex, paramIndex, weaveSpeed, numEventPatterns|
-			var phase = eventIndex.linlin(0, numEventPatterns, 0.0, 2pi);
+			var phase = eventIndex.linlin(0, numEventPatterns, -2pi, 2pi);
 			^Psinen(( 1+paramIndex )*( 1+eventIndex )*weaveSpeed, phase);
 	}
 }
 
+// Weave using envelopes
+Psegways : Pweave {
+	*weaveFunc{ |eventIndex, paramIndex, weaveSpeed, numEventPatterns|
+
+	}
+} 
