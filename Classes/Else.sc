@@ -160,7 +160,7 @@ Pweave : Pattern {
 			}.flatten;
 
 			// Modified version of event pattern collected
-			^Pbindf(eventPat, *newParams)
+			Pbindf(eventPat, *newParams)
 		};
 
 		// All modified versions of the event patterns stacked on top of eachother again
