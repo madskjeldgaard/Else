@@ -14,7 +14,7 @@ METHOD:: new
 ARGUMENT:: eventPatterns
 A list of event patterns (Pbinds)
 
-ARGUMENT:: waveLength
+ARGUMENT:: weaveSpeed
 The frequency of the modulating sine wave patterns
 
 ARGUMENT:: overWrite
