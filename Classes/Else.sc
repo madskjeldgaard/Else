@@ -109,6 +109,17 @@ Psrp : Pattern {
 	}
 }
 
+// Normalized
+Psrpn : Pattern {
+	*new { |freq=1, phase=0|
+		^Plazy({var undulate, result;
+			undulate = Psine(freq, phase) % Pcosine(freq, phase);
+			result = sin(4pi / exp(undulate + phase));
+			result.linlin(-1,1,0.0,1.0)
+		})
+	}
+}
+
 Psrpmod : Pattern {
 	*new { |freq=1, mod=0.5, phase=0|
 		^Plazy({var undulate, wave, result;
@@ -116,6 +127,42 @@ Psrpmod : Pattern {
 			wave = undulate * (Psine(mod, phase) + Pcosine(freq, phase));
 			result = sin(4pi * Pcosine(wave, phase) + phase);
 			result
+		})
+	}
+}
+
+// Normalized
+Psrpmodn : Pattern {
+	*new { |freq=1, mod=0.5, phase=0|
+		^Plazy({var undulate, wave, result;
+			undulate = Psine(freq, phase) * Pcosine(mod, phase);
+			wave = undulate * (Psine(mod, phase) + Pcosine(freq, phase));
+			result = sin(4pi * Pcosine(wave, phase) + phase);
+			result.linlin(-1,1,0,1)
+		})
+	}
+}
+
+PairyDeriv : Pattern {
+	*new { |freq=1, phase1=0, phase2=0.5, versions = 2 |
+		^Plazy({var b1, b2, wave, result;
+			b1 = {|i| Psine(freq + i/versions, phase1)}.dup(versions).sum;
+			b2 = {|i| Pcosine(freq / 0.5pi + i / versions, phase2)}.dup(versions).sum;
+			wave = b1 % b2;
+			result = wave / versions;
+			result
+		})
+	}
+}
+// Normalized
+PairyDerivn : Pattern {
+	*new { |freq=1, phase1=0, phase2=0.5, versions = 2 |
+		^Plazy({var b1, b2, wave, result;
+			b1 = {|i| Psine(freq + i/versions, phase1)}.dup(versions).sum;
+			b2 = {|i| Pcosine(freq / 0.5pi + i / versions, phase2)}.dup(versions).sum;
+			wave = b1 % b2;
+			result = wave / versions;
+			result.linlin(-1,1,0,1)
 		})
 	}
 }
